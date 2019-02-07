@@ -21,7 +21,7 @@ namespace GameOfLife
         private int h = 18;
         private int[,] Grid2D;
         private int[,] nextGrid2D;
-        private int resolution;//resolution for drawing method
+        private int resolution;//resolution for drawing method it is calculated based on the picture box size
         private bool isStep;
 
         //moveRow and moveCol are used to check surounding neighbours base on index e.g. index 0 checks cell (-1, -1) which is the top left cell
@@ -97,7 +97,7 @@ namespace GameOfLife
                 {
                     for (int col = 0; col < Grid2D.GetLength(1); col++)
                     {
-                        //skips the edges
+                        //skips the edges assuming you do not want a wrapping game of life 
                         if (row != 0 && col != 0 && row != Grid2D.GetLength(0) - 1 && col != Grid2D.GetLength(1) - 1)
                         {
                             int currentState = Grid2D[row, col];
