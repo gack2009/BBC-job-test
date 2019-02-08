@@ -12,15 +12,10 @@ namespace GameOfLife
 {
     public partial class Form1 : Form
     {
-        public Form1()
-        {
-            InitializeComponent();
-        }
 
-        private int w = 18;
-        private int h = 18;
+        private int w;
+        private int h;
         private int[,] Grid2D;
-        private int[,] nextGrid2D;
         private int resolution;//resolution for drawing method it is calculated based on the picture box size
         private bool isStep;
 
@@ -30,30 +25,40 @@ namespace GameOfLife
 
         //background worker added to enable buttons while game is running
         private BackgroundWorker _worker = null;
-        bool run;
 
+        public Form1()
+        {
+            InitializeComponent();
+            //size of the grid you can play around with this but keep it as a rectangle keep it below 20
+            w = 18;
+            h = 18;
+            Grid2D = new int[w, h];
+            resolution = picGameOfLife.Height / h;
+            //moveRow and moveCol are used to check surounding neighbours base on index e.g. index 0 checks cell (-1, -1) which is the top left cell
+            moveRow = new int[]{ -1, -1, -1, 0, 0, 1, 1, 1 };
+            moveCol = new int[]{ -1, 0, 1, -1, 1, -1, 0, 1 };
+        }
 
         private void btnStart_Click(object sender, EventArgs e)
         {
-            run = true;
             Grid2D = new int[w, h];
 
-            nextGrid2D = new int[w, h];
+            //nextGrid2D = new int[w, h];
             resolution = picGameOfLife.Height / h;
             isStep = false;
+
+            FillGrid();
+
+            //backgroundworker to enable the buttons
             _worker = new BackgroundWorker();
             _worker.WorkerSupportsCancellation = true;
-
             _worker.DoWork += new DoWorkEventHandler((state, args) =>
             {
                 do
                 {
                     if (_worker.CancellationPending)
                         break;
-                    if (!isStep)
-                    {
-                        FillGrid();
-                    }
+
                     StartGameOfLife();
 
                 } while (true);
@@ -62,7 +67,7 @@ namespace GameOfLife
             _worker.RunWorkerAsync();
 
         }
-        
+
 
         public void FillGrid()
         {
@@ -79,63 +84,66 @@ namespace GameOfLife
                 for (int j = 0; j < colCount; j++)
                 {
                     Grid2D[i, j] = randNum.Next(0, 2);
-                    nextGrid2D[i, j] = 0;
                 }
             }
+            //a test case, if you want to try it disable the current FillGrid() implementation
+            //Grid2D = new int[,]{
+            //    {0,0,0,0,0 },
+            //    {0,0,0,0,0 },
+            //    {0,1,1,1,0 },
+            //    {0,0,0,0,0 },
+            //    {0,0,0,0,0 } };
+            Draw();
         }
 
         public void StartGameOfLife()
         {
-            //infite loop to keep the game running
-            while (run)
+            
+            int[,] nextGrid2D = new int[w, h];
+            for (int row = 0; row < Grid2D.GetLength(0); row++)
             {
-                if (isStep)
+                for (int col = 0; col < Grid2D.GetLength(1); col++)
                 {
-                    run = false;
-                }
-                for (int row = 0; row < Grid2D.GetLength(0); row++)
-                {
-                    for (int col = 0; col < Grid2D.GetLength(1); col++)
+                    //skips the edges assuming you do not want a wrapping game of life 
+                    if (row != 0 && col != 0 && row != Grid2D.GetLength(0) - 1 && col != Grid2D.GetLength(1) - 1)
                     {
-                        //skips the edges assuming you do not want a wrapping game of life 
-                        if (row != 0 && col != 0 && row != Grid2D.GetLength(0) - 1 && col != Grid2D.GetLength(1) - 1)
-                        {
-                            int currentState = Grid2D[row, col];
-                            int neighbours = CountNeighbours(row, col);
 
-                            //Scenario 1
-                            if (neighbours < 2 && currentState == 1)
-                            {
-                                nextGrid2D[row, col] = 0;
-                            }
-                            //Scenario 2
-                            else if (neighbours > 3 && currentState ==1 )
-                            {
-                                nextGrid2D[row, col] = 0;
-                            }
-                            //Scenario 3
-                            else if ((neighbours == 2 || neighbours == 3) && currentState == 1)
+                        int currentState = Grid2D[row, col];
+                        int neighbours = CountNeighbours(row, col);
+
+                        if (currentState == 1)
+                        {
+                            // scenario 3
+                            /* If a cell is alive we check if it has two or three living neighbours */
+                            if (neighbours >= 2 && neighbours <= 3)
                             {
                                 nextGrid2D[row, col] = 1;
                             }
-                            //Scenario 4
-                            else if (neighbours == 3 && currentState == 0)
+                            else/* if not it will die scenario 1 and 2 */
                             {
-                                nextGrid2D[row, col] = 1;
-                            }
-                            else
-                            {
-                                //this include Scenario 0
-                                nextGrid2D[row, col] = Grid2D[row, col];
+                                nextGrid2D[row, col] = 0;
                             }
                         }
+                        else
+                        {
+                            //scenario 4
+                            /* If a dead cell has three neighbours it will become alive */
+                            if (neighbours == 3)
+                            {
+                                nextGrid2D[row, col] = 1;
+                            }
+                            else /* else it will stay dead */
+                            {
+                                //include scenario 0
+                                nextGrid2D[row, col] = 0;
+                            }
+                        }                       
                     }
                 }
-
-                Draw();
-
-                Grid2D = nextGrid2D;
             }
+
+            Grid2D = nextGrid2D;
+            Draw();
         }
 
         /// <summary>
@@ -187,11 +195,11 @@ namespace GameOfLife
                     {
                         b = dead;
                     }
-                    g.FillRectangle(b, rowIndex * resolution, columnIndex * resolution, resolution-1, resolution-1);
+                    g.FillRectangle(b, columnIndex * resolution, rowIndex * resolution, resolution - 1, resolution - 1);
                 }
             }
         }
-        
+
         /// <summary>
         /// stops the game
         /// </summary>
@@ -199,16 +207,20 @@ namespace GameOfLife
         /// <param name="e"></param>
         private void btnStop_Click(object sender, EventArgs e)
         {
-            if(nextGrid2D == null)
+            if (Grid2D == null)
             {
                 MessageBox.Show("Please start the game first");
             }
             else
             {
-                run = false;
-                _worker.CancelAsync();
-            }            
+                if (_worker != null && _worker.IsBusy)
+                {
+                    _worker.CancelAsync();
+                    _worker.Dispose();
+                }
+            }
         }
+
         /// <summary>
         /// this button pause the game and allows you to view frame by frame
         /// </summary>
@@ -216,17 +228,36 @@ namespace GameOfLife
         /// <param name="e"></param>
         private void btnStep_Click(object sender, EventArgs e)
         {
-            if(nextGrid2D == null)
+            if (Grid2D == null)
             {
                 MessageBox.Show("Please press on start first");
             }
             else
             {
                 isStep = true;
-                run = true;
-                _worker.CancelAsync();
+                if (_worker != null && _worker.IsBusy)
+                {
+                    _worker.CancelAsync();
+                    _worker.Dispose();
+                }
                 StartGameOfLife();
-            }            
+            }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+
+            if (_worker!=null && _worker.IsBusy)
+            {
+                _worker.CancelAsync();
+                _worker.Dispose();
+            }
+            if (isStep == false)
+            {
+                FillGrid();
+            }
+            isStep = true;
+            StartGameOfLife();
         }
     }
 }

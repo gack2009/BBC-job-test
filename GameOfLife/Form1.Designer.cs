@@ -32,6 +32,7 @@
             this.picGameOfLife = new System.Windows.Forms.PictureBox();
             this.btnStop = new System.Windows.Forms.Button();
             this.btnStep = new System.Windows.Forms.Button();
+            this.btnTest = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.picGameOfLife)).BeginInit();
             this.SuspendLayout();
             // 
@@ -50,7 +51,7 @@
             // 
             this.picGameOfLife.BackColor = System.Drawing.SystemColors.AppWorkspace;
             this.picGameOfLife.Location = new System.Drawing.Point(13, 27);
-            this.picGameOfLife.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.picGameOfLife.Margin = new System.Windows.Forms.Padding(4);
             this.picGameOfLife.Name = "picGameOfLife";
             this.picGameOfLife.Size = new System.Drawing.Size(746, 700);
             this.picGameOfLife.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
@@ -77,11 +78,22 @@
             this.btnStep.UseVisualStyleBackColor = true;
             this.btnStep.Click += new System.EventHandler(this.btnStep_Click);
             // 
+            // btnTest
+            // 
+            this.btnTest.Location = new System.Drawing.Point(836, 392);
+            this.btnTest.Name = "btnTest";
+            this.btnTest.Size = new System.Drawing.Size(75, 23);
+            this.btnTest.TabIndex = 5;
+            this.btnTest.Text = "Manual";
+            this.btnTest.UseVisualStyleBackColor = true;
+            this.btnTest.Click += new System.EventHandler(this.button1_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1005, 761);
+            this.Controls.Add(this.btnTest);
             this.Controls.Add(this.btnStep);
             this.Controls.Add(this.btnStop);
             this.Controls.Add(this.picGameOfLife);
@@ -99,6 +111,7 @@
         private System.Windows.Forms.PictureBox picGameOfLife;
         private System.Windows.Forms.Button btnStop;
         private System.Windows.Forms.Button btnStep;
+        private System.Windows.Forms.Button btnTest;
     }
 }
 
