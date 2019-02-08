@@ -18,3 +18,13 @@ C:\Users\gackm\Desktop\bbc\GameOfLife - Copy (2)\GameOfLife\obj\Debug\GameOfLife
 C:\Users\gackm\Desktop\bbc\GameOfLife - Copy (2)\GameOfLife\obj\Debug\GameOfLife.csproj.CoreCompileInputs.cache
 C:\Users\gackm\Desktop\bbc\GameOfLife - Copy (2)\GameOfLife\obj\Debug\GameOfLife.exe
 C:\Users\gackm\Desktop\bbc\GameOfLife - Copy (2)\GameOfLife\obj\Debug\GameOfLife.pdb
+C:\Users\gackm\Desktop\bbc\GameOfLife - Copy (2)\BBC-job-test\GameOfLife\bin\Debug\GameOfLife.exe.config
+C:\Users\gackm\Desktop\bbc\GameOfLife - Copy (2)\BBC-job-test\GameOfLife\bin\Debug\GameOfLife.exe
+C:\Users\gackm\Desktop\bbc\GameOfLife - Copy (2)\BBC-job-test\GameOfLife\bin\Debug\GameOfLife.pdb
+C:\Users\gackm\Desktop\bbc\GameOfLife - Copy (2)\BBC-job-test\GameOfLife\obj\Debug\GameOfLife.csprojAssemblyReference.cache
+C:\Users\gackm\Desktop\bbc\GameOfLife - Copy (2)\BBC-job-test\GameOfLife\obj\Debug\GameOfLife.Form1.resources
+C:\Users\gackm\Desktop\bbc\GameOfLife - Copy (2)\BBC-job-test\GameOfLife\obj\Debug\GameOfLife.Properties.Resources.resources
+C:\Users\gackm\Desktop\bbc\GameOfLife - Copy (2)\BBC-job-test\GameOfLife\obj\Debug\GameOfLife.csproj.GenerateResource.cache
+C:\Users\gackm\Desktop\bbc\GameOfLife - Copy (2)\BBC-job-test\GameOfLife\obj\Debug\GameOfLife.csproj.CoreCompileInputs.cache
+C:\Users\gackm\Desktop\bbc\GameOfLife - Copy (2)\BBC-job-test\GameOfLife\obj\Debug\GameOfLife.exe
+C:\Users\gackm\Desktop\bbc\GameOfLife - Copy (2)\BBC-job-test\GameOfLife\obj\Debug\GameOfLife.pdb
